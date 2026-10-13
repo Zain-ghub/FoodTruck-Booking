@@ -1,0 +1,49 @@
+﻿@page
+@model Burgers.Pages.BookModel
+@{
+        ViewData["Title"] = "Book the truck";
+}
+
+<form method="post">
+
+    <div class="mb-3">
+        <label asp-for="Booking.CustomerName" class="form-label"></label>
+        <input asp-for="Booking.CustomerName" class="form-control" />
+        <span asp-validation-for="Booking.CustomerName" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Booking.CustomerEmail" class="form-label"></label>
+        <input asp-for="Booking.CustomerEmail" class="form-control" />
+        <span asp-validation-for="Booking.CustomerEmail" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Booking.CustomerPhone" class="form-label"></label>
+        <input asp-for="Booking.CustomerPhone" class="form-control" />
+        <span asp-validation-for="Booking.CustomerPhone" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Booking.BookingDate" class="form-label"></label>
+        <input asp-for="Booking.BookingDate" class="form-control" />
+        <span asp-validation-for="Booking.BookingDate" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Booking.NumberOfGuests" class="form-label"></label>
+        <input asp-for="Booking.NumberOfGuests" class="form-control" />
+        <span asp-validation-for="Booking.NumberOfGuests" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Booking.SpecialRequests" class="form-label"></label>
+        <textarea asp-for="Booking.SpecialRequests" class="form-control"></textarea>
+        <span asp-validation-for="Booking.SpecialRequests" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Booking.Address" class="form-label"></label>
+        <input asp-for="Booking.Address" class="form-control" />
+        <span asp-validation-for="Booking.Address" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Book Now!</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
