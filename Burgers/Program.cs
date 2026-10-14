@@ -1,4 +1,5 @@
 using Burgers.Data;
+using Burgers.Services;
 using Microsoft.EntityFrameworkCore;
 namespace Burgers
 {
@@ -10,6 +11,8 @@ namespace Burgers
 
             // Add services to the container.
             builder.Services.AddRazorPages();
+            builder.Services.AddScoped<IBookingService, BookingService>();
+            builder.Services.AddScoped<IMenuService, MenuService>();
 
             builder.Services.AddDbContext<BurgersContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

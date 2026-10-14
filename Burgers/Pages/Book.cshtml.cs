@@ -1,5 +1,6 @@
-using Burgers.Data;
+
 using Burgers.Models;
+using Burgers.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -7,11 +8,12 @@ namespace Burgers.Pages
 {
     public class BookModel : PageModel
     {
-        private readonly BurgersContext _context;
+        
+        private readonly IBookingService _bookingService;
 
-        public BookModel(BurgersContext context)
+        public BookModel(IBookingService bookingService)
         {
-            _context = context;
+            _bookingService = bookingService;
         }
         [BindProperty]
         public Booking Booking { get; set; }
@@ -27,15 +29,11 @@ namespace Burgers.Pages
             }
             if (ModelState.IsValid)
             {
-                Booking.Status = "Pending"; // Set the default status to "Pending"
-
-                _context.Bookings.Add(Booking);
-                _context.SaveChanges();
-                // Redirect to a confirmation page or display a success message
+                
+                _bookingService.CreateBooking(Booking);
                 return RedirectToPage("Confirmation");
             }
             return Page();
-
         }
     }
 }

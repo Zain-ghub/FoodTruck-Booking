@@ -8,5 +8,7 @@ namespace Burgers.Data
         {
         }
         public DbSet<Booking> Bookings { get; set; }
+        public DbSet<MenuItem> MenuItems { get; set; }
     }
-}
+    }
+

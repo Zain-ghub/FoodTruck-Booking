@@ -1,44 +1,34 @@
 using Microsoft.AspNetCore.Mvc;
-using Burgers.Data;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Burgers.Models;
+using Burgers.Services;
 
 namespace Burgers.Pages
 {
     public class BookingsModel : PageModel
     {
-        private readonly BurgersContext _context;
+        private readonly IBookingService _bookingService;
 
-        public BookingsModel(BurgersContext context)
+        public BookingsModel(IBookingService bookingService)
         {
-            _context = context;
+            _bookingService = bookingService;
         }
-        private IActionResult UpdateStatus(int id, string status)
-        {
-            var booking = _context.Bookings.Find(id);
-            if (booking == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                booking.Status = status;
-                _context.SaveChanges();
-                return RedirectToPage();
-            }
-        }
+
         public IActionResult OnPostConfirm(int id)
         {
-            return UpdateStatus(id, "Confirmed");
+           var result = _bookingService.UpdateStatus(id, "Confirmed");
+            return result ? RedirectToPage() : NotFound();
+            
         }
         public IActionResult OnPostDecline(int id)
         {
-            return UpdateStatus(id, "Declined");
+            var result = _bookingService.UpdateStatus(id, "Declined");
+            return result ? RedirectToPage() : NotFound();
         }
         public List<Booking> Bookings  { get; set; } = new();
         public void OnGet()
         {
-            Bookings = _context.Bookings.OrderBy(b => b.BookingDate).ToList();
+            Bookings = _bookingService.GetBookings();
         }
     }
 }

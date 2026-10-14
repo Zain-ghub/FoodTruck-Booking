@@ -1,0 +1,31 @@
+﻿@page
+@model Burgers.Pages.MenuModel
+@{
+    ViewData["Title"] = "Menu";
+}
+
+<h1>Menu</h1>
+
+@if (Model.MenuItems.Any())
+{
+    @foreach (var group in Model.MenuItems.GroupBy(m => m.Category))
+    {
+        <h2 class="mt-4">@group.Key</h2>
+        <div class="list-group">
+            @foreach (var item in group)
+            {
+                <div class="list-group-item d-flex justify-content-between">
+                    <div>
+                        <strong>@item.Name</strong>
+                        <div class="text-muted">@item.Description</div>
+                    </div>
+                    <span>@item.Price.ToString("0.00")</span>
+                </div>
+            }
+        </div>
+    }
+}
+else
+{
+    <p>Menu coming soon.</p>
+}
