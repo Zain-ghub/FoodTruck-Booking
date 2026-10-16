@@ -1,6 +1,6 @@
 
 using Burgers.Models;
-using Burgers.Services;
+using Burgers.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 

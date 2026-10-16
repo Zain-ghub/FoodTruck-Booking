@@ -1,6 +1,6 @@
 ﻿using Burgers.Models;
 
-namespace Burgers.Services
+namespace Burgers.Core.Interfaces
 {
     public interface IBookingService
     {

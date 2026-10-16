@@ -1,6 +1,8 @@
-using Burgers.Data;
+
+using Burgers.Core.Interfaces;
 using Burgers.Services;
 using Microsoft.EntityFrameworkCore;
+using Burgers.Data;
 namespace Burgers
 {
     public class Program

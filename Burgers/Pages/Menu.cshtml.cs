@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Burgers.Services;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Burgers.Models;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Burgers.Core.Interfaces;
 
 namespace Burgers.Pages
 {

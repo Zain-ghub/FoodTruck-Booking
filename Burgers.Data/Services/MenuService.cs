@@ -1,4 +1,5 @@
 ﻿using Burgers.Data;
+using Burgers.Core.Interfaces;
 using Burgers.Models;
 namespace Burgers.Services
 {
