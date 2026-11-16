@@ -3,6 +3,7 @@ using Burgers.Core.Interfaces;
 using Burgers.Services;
 using Microsoft.EntityFrameworkCore;
 using Burgers.Data;
+using Microsoft.AspNetCore.Identity;
 namespace Burgers.Api
 {
     public class Program
@@ -18,6 +19,8 @@ namespace Burgers.Api
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddControllers();
+
+            builder.Services.AddIdentityCore<IdentityUser>().AddEntityFrameworkStores<BurgersContext>();
             
             builder.Services.AddDbContext<BurgersContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

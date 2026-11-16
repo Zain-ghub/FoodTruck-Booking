@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Burgers.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 namespace Burgers.Data
 {
-    public class BurgersContext : DbContext
+    public class BurgersContext : IdentityDbContext<IdentityUser>
     {
         public BurgersContext(DbContextOptions<BurgersContext> options) : base(options)
         {
