@@ -34,7 +34,7 @@ namespace Burgers.Api.Controllers
             var res = _bookingService.CreateBooking(entity);
             return Ok(new BookingResponseDto { Address = res.Address, BookingDate = res.BookingDate, Id = res.Id, Status = res.Status });
         }
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         public ActionResult<List<BookingAdminDto>> GetAllBookings()
         {
@@ -54,14 +54,14 @@ namespace Burgers.Api.Controllers
 
             return Ok(result);
         }
-
+        [Authorize]
         [HttpPost("{id}/confirm")]
         public ActionResult ConfirmBooking(int id)
         {
             var res = _bookingService.UpdateStatus(id, "Confirmed");
             return res ? NoContent() : NotFound();
         }
-
+        [Authorize]
         [HttpPost("{id}/decline")]
         public ActionResult DeclineBooking(int id)
         {
