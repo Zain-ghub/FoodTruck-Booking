@@ -3,11 +3,13 @@ using Burgers.Core.Interfaces;
 using Burgers.Data;
 using Burgers.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using Microsoft.OpenApi.Models;
+using System.Text;
 
 namespace Burgers.Api
 {
@@ -29,6 +31,14 @@ namespace Burgers.Api
 
             });
             builder.Services.AddControllers();
+            builder.Services.AddProblemDetails();
+            builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
+
+            var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? Array.Empty<string>();
+
+            builder.Services.AddCors(options => { options.AddPolicy("Angular", policy => { policy.WithOrigins(allowedOrigins).AllowAnyHeader().AllowAnyMethod(); }); });
+            
 
             builder.Services.AddIdentityCore<IdentityUser>().AddEntityFrameworkStores<BurgersContext>();
             
@@ -56,6 +66,10 @@ namespace Burgers.Api
 
 
             var app = builder.Build();
+
+           
+
+            
 
             using (var scope = app.Services.CreateScope())
             {
@@ -103,7 +117,8 @@ namespace Burgers.Api
             
             app.UseHttpsRedirection();
 
-
+            app.UseExceptionHandler();
+            app.UseCors("Angular");
             app.UseAuthentication();
             app.UseAuthorization();
 
