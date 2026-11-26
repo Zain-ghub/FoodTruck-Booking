@@ -1,0 +1,26 @@
+
+<section class="menu">
+  <h1>Menu</h1>
+  @if (groups$ | async; as groups) {
+    @for (group of groups; track group.category) {
+      <h2>{{ group.category }}</h2>
+      <div class="grid">
+        @for (item of group.items; track item.id) {
+          <article class="card">
+            <div class="card-top">
+              <h3>{{ item.name }}</h3>
+              <span class="price">{{ item.price | number: '1.2-2' }}</span>
+            </div>
+            @if (item.description) {
+              <p>{{ item.description }}</p>
+            }
+          </article>
+        }
+      </div>
+    } @empty {
+      <p>Menu coming soon.</p>
+    }
+  } @else {
+    <p>Loading…</p>
+  }
+</section>

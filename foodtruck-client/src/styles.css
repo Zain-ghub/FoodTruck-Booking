@@ -1,1 +1,45 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+
+:root {
+	color-scheme: dark;
+	font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	background: #151515;
+	color: #f3f0e9;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	min-width: 320px;
+	min-height: 100%;
+	background: #151515;
+}
+
+body {
+	min-width: 320px;
+	min-height: 100vh;
+	margin: 0;
+	background-color: #151515;
+	background-image: repeating-linear-gradient(
+		0deg,
+		transparent 0,
+		transparent 3px,
+		rgb(255 255 255 / 1.5%) 4px
+	);
+}
+
+button,
+a {
+	font: inherit;
+}
+
+::selection {
+	background: #ff6a00;
+	color: #141414;
+}

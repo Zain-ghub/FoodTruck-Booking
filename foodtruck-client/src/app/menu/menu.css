@@ -1,0 +1,27 @@
+/*.menu { max-width: 960px; margin: 0 auto; padding: 1.5rem 1rem; }  */   
+h2 { margin-top: 2rem; border-bottom: 2px solid var(--accent, #ff7a1a); padding-bottom: .25rem; }
+/*.grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); margin-top: 1rem; } */
+.card { background: rgba(255,255,255,.06); border-radius: 12px; padding: 1rem 1.25rem; }
+.card-top { display: flex; justify-content: space-between; gap: 1rem; align-items: baseline; }
+.card h3 { margin: 0; font-size: 1.1rem; }
+.price { color: var(--accent, #ff7a1a); font-weight: 700; }
+.card p { margin: .5rem 0 0; opacity: .8; }
+.menu {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+}
+
+.menu h1 {
+  margin: 0 0 1.5rem;
+}
+
+.menu h2 {
+  margin: 2rem 0 0.85rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
