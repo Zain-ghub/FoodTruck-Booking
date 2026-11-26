@@ -1,0 +1,18 @@
+.admin { max-width: 960px; margin: 0 auto; padding: 1.5rem 1rem; }
+.admin-head { display: flex; justify-content: space-between; align-items: center; }
+.grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); margin-top: 1rem; }
+.card { background: rgba(255,255,255,.06); border-radius: 12px; padding: 1rem 1.25rem; }
+.card-top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.card h3 { margin: 0; font-size: 1.1rem; }
+.card p { margin: .4rem 0 0; opacity: .85; }
+.note { font-style: italic; }
+.badge { padding: .15rem .6rem; border-radius: 999px; font-size: .75rem; font-weight: 700; background: #444; }
+.badge.pending { background: #7a5a00; color: #ffd36b; }
+.badge.confirmed { background: #12502a; color: #7dffa8; }
+.badge.declined { background: #5a1a1a; color: #ff9a9a; }
+.actions { display: flex; gap: .5rem; margin-top: .9rem; }
+button { padding: .55rem 1rem; border: 0; border-radius: 8px; font-weight: 700; cursor: pointer; }
+.confirm { background: var(--accent, #ff7a1a); color: #111; }
+.decline { background: transparent; color: #ff9a9a; border: 1px solid #5a1a1a; }
+.ghost { background: transparent; color: inherit; border: 1px solid #444; }
+.error { color: #ff6b6b; }

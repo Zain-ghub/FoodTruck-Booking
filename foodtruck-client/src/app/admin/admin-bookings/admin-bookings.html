@@ -1,0 +1,39 @@
+<section class="admin">
+  <header class="admin-head">
+    <h1>Bookings</h1>
+    <button class="ghost" (click)="logout()">Log out</button>
+  </header>
+
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+
+  @if (loading()) {
+    <p>Loading…</p>
+  } @else {
+    <div class="grid">
+      @for (b of bookings(); track b.id) {
+        <article class="card">
+          <div class="card-top">
+            <h3>{{ b.customerName }}</h3>
+            <span class="badge" [class]="b.status.toLowerCase()">{{ b.status }}</span>
+          </div>
+          <p>{{ b.bookingDate | date: 'medium' }} · {{ b.numberOfGuests ?? '—' }} guests</p>
+          <p>{{ b.address }}</p>
+          <p>{{ b.customerPhone }}@if (b.customerEmail) { · {{ b.customerEmail }} }</p>
+          @if (b.specialRequests) {
+            <p class="note">{{ b.specialRequests }}</p>
+          }
+          @if (b.status === 'Pending') {
+            <div class="actions">
+              <button class="confirm" (click)="setStatus(b.id, 'confirm')">Confirm</button>
+              <button class="decline" (click)="setStatus(b.id, 'decline')">Decline</button>
+            </div>
+          }
+        </article>
+      } @empty {
+        <p>No bookings yet.</p>
+      }
+    </div>
+  }
+</section>
