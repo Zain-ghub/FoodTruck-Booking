@@ -1,0 +1,75 @@
+<section class="book">
+  @if (confirmation(); as c) {
+    <div class="done">
+      <h1>Request sent</h1>
+      <p>
+        Thanks! Your booking <strong>#{{ c.id }}</strong> is
+        <strong>{{ c.status }}</strong>. We'll contact you to confirm.
+      </p>
+      <button type="button" (click)="reset()">Make another booking</button>
+    </div>
+  } @else {
+    <h1>Book the truck</h1>
+    <p class="lead">Tell us where and when, and we'll roll up.</p>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <label>Your name
+        <input type="text" formControlName="customerName" autocomplete="name" />
+        @if (f.customerName.touched && f.customerName.invalid) {
+          <span class="err">Please enter your name.</span>
+        }
+      </label>
+
+      <label>Phone
+        <input type="tel" formControlName="customerPhone" autocomplete="tel" />
+        @if (f.customerPhone.touched && f.customerPhone.invalid) {
+          <span class="err">Enter a valid phone number.</span>
+        }
+      </label>
+
+      <label>Email (optional)
+        <input type="email" formControlName="customerEmail" autocomplete="email" />
+        @if (f.customerEmail.touched && f.customerEmail.invalid) {
+          <span class="err">Enter a valid email address.</span>
+        }
+      </label>
+
+      <label>Date and time
+        <input type="datetime-local" formControlName="bookingDate" />
+        @if (f.bookingDate.touched) {
+          @if (f.bookingDate.hasError('required')) {
+            <span class="err">Choose a date and time.</span>
+          } @else if (f.bookingDate.hasError('pastDate')) {
+            <span class="err">Pick a time in the future.</span>
+          }
+        }
+      </label>
+
+      <label>Number of guests (optional)
+        <input type="number" formControlName="numberOfGuests" min="1" max="700" />
+        @if (f.numberOfGuests.touched && f.numberOfGuests.invalid) {
+          <span class="err">Between 1 and 700 guests.</span>
+        }
+      </label>
+
+      <label>Event address
+        <input type="text" formControlName="address" autocomplete="street-address" />
+        @if (f.address.touched && f.address.invalid) {
+          <span class="err">Where should the truck go?</span>
+        }
+      </label>
+
+      <label>Special requests (optional)
+        <textarea formControlName="specialRequests" rows="3"></textarea>
+      </label>
+
+      @for (e of serverErrors(); track e) {
+        <p class="err">{{ e }}</p>
+      }
+
+      <button type="submit" [disabled]="sending()">
+        {{ sending() ? 'Sending…' : 'Request booking' }}
+      </button>
+    </form>
+  }
+</section>
