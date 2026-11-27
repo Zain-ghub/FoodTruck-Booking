@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -73,6 +74,9 @@ namespace Burgers.Api
 
             using (var scope = app.Services.CreateScope())
             {
+                var context = scope.ServiceProvider.GetRequiredService<BurgersContext>();
+                var runMigrations = app.Configuration.GetValue<bool>("RunMigrationsOnStartup");
+                if (runMigrations) { context.Database.Migrate(); }
                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
                 var email = app.Configuration["Admin:Email"];
                 var password = app.Configuration["Admin:Password"];
