@@ -3,6 +3,9 @@ import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { AdminService, Booking } from '../admin.spec';
 import { AuthService } from '../../auth.service';
+import { BookingNotificationsService } from '../booking-notifications.spec';
+import { OnDestroy } from '@angular/core' ;
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-admin-bookings',
@@ -10,10 +13,12 @@ import { AuthService } from '../../auth.service';
   templateUrl: './admin-bookings.html',
   styleUrl: './admin-bookings.css',
 })
-export class AdminBookings implements OnInit {
+export class AdminBookings implements OnInit, OnDestroy {
   private admin = inject(AdminService);
   private auth = inject(AuthService);
   private router = inject(Router);
+  private notif = inject(BookingNotificationsService);
+  private sub?: Subscription;
 
   bookings = signal<Booking[]>([]);
   loading = signal(true);
@@ -21,6 +26,15 @@ export class AdminBookings implements OnInit {
 
   ngOnInit() {
     this.load();
+    this.notif.start();
+    this.sub = this.notif.bookingCreated$.subscribe((booking) => {
+      this.load();
+    });
+  }
+
+  ngOnDestroy() {
+    this.sub?.unsubscribe();
+    this.notif.stop();
   }
 
   load() {

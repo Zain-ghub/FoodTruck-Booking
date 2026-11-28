@@ -1,4 +1,5 @@
 
+using Burgers.Api.Hubs;
 using Burgers.Core.Interfaces;
 using Burgers.Data;
 using Burgers.Services;
@@ -27,18 +28,19 @@ namespace Burgers.Api
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(options => {
 
-            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme { Name = "Authorization", Type = SecuritySchemeType.Http, Scheme = "bearer", BearerFormat = "JWT", In = ParameterLocation.Header });
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme { Name = "Authorization", Type = SecuritySchemeType.Http, Scheme = "bearer", BearerFormat = "JWT", In = ParameterLocation.Header });
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement{{new OpenApiSecurityScheme { Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }}, new string[] { }}});
 
             });
             builder.Services.AddControllers();
             builder.Services.AddProblemDetails();
             builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+            builder.Services.AddSignalR();
 
 
             var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? Array.Empty<string>();
 
-            builder.Services.AddCors(options => { options.AddPolicy("Angular", policy => { policy.WithOrigins(allowedOrigins).AllowAnyHeader().AllowAnyMethod(); }); });
+            builder.Services.AddCors(options => { options.AddPolicy("Angular", policy => { policy.WithOrigins(allowedOrigins).AllowAnyHeader().AllowAnyMethod().AllowCredentials(); }); });
             
 
             builder.Services.AddIdentityCore<IdentityUser>().AddEntityFrameworkStores<BurgersContext>();
@@ -62,6 +64,16 @@ namespace Burgers.Api
                         ValidIssuer = builder.Configuration["Jwt:Issuer"],
                         ValidAudience = builder.Configuration["Jwt:Audience"],
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
+                    };
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            var accessToken = context.Request.Query["access_token"];
+                            var path = context.HttpContext.Request.Path;
+                            if (!String.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs")) { context.Token = accessToken; }
+                            return Task.CompletedTask;
+                        }
                     };
                 });
 
@@ -125,6 +137,8 @@ namespace Burgers.Api
             app.UseCors("Angular");
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.MapHub<BookingsHub>("/hubs/bookings");
 
             app.MapControllers();
 

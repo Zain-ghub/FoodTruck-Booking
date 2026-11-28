@@ -1,8 +1,10 @@
 ﻿using Burgers.Api.DTOs;
+using Burgers.Api.Hubs;
 using Burgers.Core.Interfaces;
 using Burgers.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 namespace Burgers.Api.Controllers
 {
     [ApiController]
@@ -12,13 +14,15 @@ namespace Burgers.Api.Controllers
 
 
         private readonly IBookingService _bookingService;
+        private readonly IHubContext<BookingsHub> _hubContext;
 
-        public BookingsController(IBookingService bookingservice)
+        public BookingsController(IBookingService bookingservice, IHubContext<BookingsHub> hubContext)
         {
             _bookingService = bookingservice;
+            _hubContext = hubContext;
         }
         [HttpPost]
-        public ActionResult<BookingResponseDto> PostBooking(CreateBookingDto dto)
+        public async Task<ActionResult<BookingResponseDto>> PostBooking(CreateBookingDto dto)
         {
 
             var entity = new Booking
@@ -32,6 +36,7 @@ namespace Burgers.Api.Controllers
                 Address = dto.Address,
             };
             var res = _bookingService.CreateBooking(entity);
+            await _hubContext.Clients.All.SendAsync("bookingCreated", new {res.Id, res.CustomerName, res.BookingDate, res.Address });
             return Ok(new BookingResponseDto { Address = res.Address, BookingDate = res.BookingDate, Id = res.Id, Status = res.Status });
         }
         [Authorize]
